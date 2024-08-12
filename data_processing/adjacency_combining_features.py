@@ -50,14 +50,14 @@ if __name__ == "__main__":
 
     variables = ['EP_POV','EP_UNEMP','EP_NOHSDP','EP_UNINSUR','EP_AGE65','EP_AGE17','EP_DISABL','EP_SNGPNT','EP_LIMENG','EP_MINRTY','EP_MUNIT','EP_MOBILE','EP_CROWD','EP_NOVEH','EP_GROUPQ']
 
-    BASE_DIR = '/home/h6x/git_projects/data_processing/processed_data/adjacency_pers_images_npy_county/experimet_4'
+    BASE_DIR = '/home/h6x/git_projects/data_processing/processed_data/adjacency_pers_images_npy_county/experimet_6'
     DATA_DIR = f"{BASE_DIR}/npy_all_variables"
     COMBINED_FEATURES_DIR = f"{BASE_DIR}/npy_combined"
 
     ANNOTATION_PATH = '/home/h6x/git_projects/data_processing/processed_data/svi_with_hepvu/2018/annotations_2018/annotation_NOD.csv'
 
     # output annotation path
-    # OUTPUT_ANNOTATION_PATH = f'{BASE_DIR}/annotations_npy_2_classes_01.csv'
+    OUTPUT_ANNOTATION_PATH = f'{BASE_DIR}/annotations_npy_2_classes_01.csv'
 
 
     file_names = {}

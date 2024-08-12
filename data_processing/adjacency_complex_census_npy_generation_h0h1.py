@@ -147,7 +147,7 @@ def process_state(state, selected_variables, selected_variables_with_censusinfo,
 # Define the main function
 if __name__ == "__main__":
     # Main execution
-    base_path = '/home/h6x/git_projects/data_processing/processed_data/adjacency_pers_images_npy_county/experimet_3/npy_all_variables'
+    base_path = '/home/h6x/git_projects/data_processing/processed_data/adjacency_pers_images_npy_county/experimet_6/npy_all_variables'
     data_path = '/home/h6x/git_projects/data_processing/processed_data/SVI/SVI2018_MIN_MAX_SCALED_MISSING_REMOVED'
 
     states = get_folders(data_path)
@@ -159,11 +159,18 @@ if __name__ == "__main__":
     ]
     selected_variables_with_censusinfo = ['FIPS', 'STCNTY'] + selected_variables + ['geometry']
 
+    # PERSISTENCE_IMAGE_PARAMS = {
+    #     'pixel_size': 0.001,
+    #     'birth_range': (0.0, 1.00),
+    #     'pers_range': (0.0, 0.40),
+    #     'kernel_params': {'sigma': 0.0003}
+    # }
+
     PERSISTENCE_IMAGE_PARAMS = {
-        'pixel_size': 0.001,
-        'birth_range': (0.0, 1.00),
-        'pers_range': (0.0, 0.40),
-        'kernel_params': {'sigma': 0.0003}
+    'pixel_size': 0.01,
+    'birth_range': (0.0, 1.0),
+    'pers_range': (0.0, 0.40),
+    'kernel_params': {'sigma': 0.0003}
     }
 
     INF_DELTA = 0.1
