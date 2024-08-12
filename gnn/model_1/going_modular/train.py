@@ -16,7 +16,8 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 from dataset import OpioidDataset
 
 # Specify tracking server
-mlflow.set_tracking_uri("http://localhost:5000")
+import mlflow
+mlflow.set_tracking_uri("http://localhost:5001")
 
 
 
@@ -127,7 +128,7 @@ def run_one_training(params):
         # Loading the dataset
         print("Loading dataset...")
         train_dataset = OpioidDataset(root="/home/h6x/git_projects/gnn/model_1/data", test=False)
-        test_dataset = MoleculeDataset(root="/home/h6x/git_projects/gnn/model_1/data", test=False)
+        test_dataset = OpioidDataset(root="/home/h6x/git_projects/gnn/model_1/data", test=False)
         # params["model_edge_dim"] = train_dataset[0].edge_attr.shape[1]
 
         # Prepare training
@@ -137,7 +138,7 @@ def run_one_training(params):
         # Loading the model
         print("Loading model...")
         model_params = {k: v for k, v in params.items() if k.startswith("model_")}
-        model = GNN(feature_size=train_dataset[0].x.shape[1], model_params=model_params) 
+        model = GNN(feature_size=train_dataset[1001].x.shape[1], model_params=model_params) # 0 changed to 1001
         model = model.to(device)
         print(f"Number of parameters: {count_parameters(model)}")
         mlflow.log_param("num_params", count_parameters(model))

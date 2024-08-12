@@ -58,6 +58,27 @@ class OpioidDataset(Dataset):
         # Flatten the nested list using a list comprehension
         flat_list = [item for sublist in nested_list for item in sublist]
         return flat_list
+    
+    def _get_node_features(self, state_data,var_names, node_ids):
+        """ This will return a matrix / 2d array of the shape
+        [Number of Nodes, Node feature size]
+
+        In here, node_ids are the gnn_ids of the nodes that we want to extract the features from.
+        """
+
+        # Filter the dataframe to include only the nodes by gnn_id
+        filtered_graph_df = state_data[state_data['gnn_id'].isin(node_ids)]
+
+        # Make index same as gnn_id
+        filtered_graph_df.set_index('gnn_id', inplace=True)
+
+        # Node features
+        attributes = filtered_graph_df[var_names]
+
+        return torch.tensor(attributes.to_numpy(), dtype=torch.float)
+
+
+
 
 
     def process(self):
@@ -119,18 +140,20 @@ class OpioidDataset(Dataset):
                 # Node features
                 node_ids  = self.flatten_and_unique(edges)
 
-                # print(f'Node IDs: ',node_ids)
+                # # print(f'Node IDs: ',node_ids)
 
-                # Filter the dataframe to include only the nodes by gnn_id
-                filtered_graph_df = state_data[state_data['gnn_id'].isin(node_ids)]
+                # # Filter the dataframe to include only the nodes by gnn_id
+                # filtered_graph_df = state_data[state_data['gnn_id'].isin(node_ids)]
 
-                # Make index same as gnn_id
-                filtered_graph_df.set_index('gnn_id', inplace=True)
+                # # Make index same as gnn_id
+                # filtered_graph_df.set_index('gnn_id', inplace=True)
 
-                # print(f'Filtered Graph DF: ',filtered_graph_df)
+                # # print(f'Filtered Graph DF: ',filtered_graph_df)
 
-                # Node features
-                attributes = filtered_graph_df[NODE_FEATURES]
+                # # Node features
+                # attributes = filtered_graph_df[NODE_FEATURES]
+
+                attrs = self._get_node_features(state_data,NODE_FEATURES,node_ids)
 
                 # print(f'Node Features: ',node_features)
 
@@ -160,7 +183,7 @@ class OpioidDataset(Dataset):
                 # print(f'Map Edge: ',map_edge)
 
                 # Convert the Dataframe into tensors
-                attrs = torch.tensor(attributes.to_numpy(), dtype=torch.float) # no index at this point
+                # attrs = torch.tensor(attributes.to_numpy(), dtype=torch.float) # no index at this point # not required because the function already returns a tensor
                 pad =torch.zeros((attrs.shape[0],4), dtype=torch.float)   # what is 4 here? # why add padding?
 
                 x =torch.cat((attrs,pad),dim=-1)
@@ -230,12 +253,18 @@ class OpioidDataset(Dataset):
 
 
 # # Define the main function
-# if __name__ == "__main__":
-#     # Main execution
+if __name__ == "__main__":
+    # Main execution
 
-#     root_name = "/home/h6x/git_projects/gnn/model_1/data"
+    root_name = "/home/h6x/git_projects/gnn/model_1/data"
 
-#     od=OpioidDataset(root_name, test=False)
+    train_dataset =OpioidDataset(root_name, test=False)
+
+    print(train_dataset[1001])
+    print(train_dataset[1001].x.shape)
+
+
+
 
 #     print(od.len())
 

@@ -15,7 +15,7 @@ HYPERPARAMETERS = {
     "model_layers": [3],
     "model_dropout_rate": [0.2, 0.5, 0.9],
     "model_top_k_ratio": [0.2, 0.5, 0.8, 0.9],
-    "model_top_k_every_n": [0],
+    "model_top_k_every_n": [1], # [0] previously
     "model_dense_neurons": [16, 128, 64, 256, 32]
 }
 
@@ -36,7 +36,7 @@ BEST_PARAMETERS = {
 }
 
 input_schema = Schema([TensorSpec(np.dtype(np.float32), (-1, 30), name="x"), 
-                       TensorSpec(np.dtype(np.float32), (-1, 11), name="edge_attr"), 
+                    #    TensorSpec(np.dtype(np.float32), (-1, 11), name="edge_attr"), 
                        TensorSpec(np.dtype(np.int32), (2, -1), name="edge_index"), 
                        TensorSpec(np.dtype(np.int32), (-1, 1), name="batch_index")])
 
